@@ -1,0 +1,37 @@
+apply plugin: 'java'
+apply plugin: 'application'
+apply plugin: 'idea'
+
+group = 'org.oceanobservatories'
+version = '1.2'
+
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
+
+mainClassName = "org.oceanobservatories.Main"
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile group: 'javax.jms', name:'jms-api', version:'1.1-rev-1'
+
+    compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.7'
+    compile group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.7'
+    compile group: 'log4j', name: 'log4j', version: '1.2.17'
+
+    compile group: 'org.apache.qpid', name: 'qpid-client', version:'0.18'
+    compile group: 'org.apache.qpid', name: 'qpid-common', version:'0.18'
+}
+
+jar {
+    // this line below will make a "fat" jar
+    from configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    manifest { attributes 'Main-Class': 'org.oceanobservatories.Main' }
+}
+
+run {
+    if (project.hasProperty("appArgs"))
+        args Eval.me(appArgs)
+}
