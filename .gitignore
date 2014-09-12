@@ -1,0 +1,6 @@
+.gradle/
+.idea/
+JMSProducer.iml
+build/
+gradle/
+logs/
